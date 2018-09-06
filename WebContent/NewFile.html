@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Home</title>
+		<meta charset="utf-8">
+		<meta name = "format-detection" content = "telephone=no" />
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBuJbLGReZLB1UMNUxAuXE3WUPMUVd9Sps&AMP&libraries=places&callback=initAutocomplete" async defer></script>
+  		
+  		 <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #description {
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+      }
+
+      #infowindow-content .title {
+        font-weight: bold;
+      }
+
+      #infowindow-content {
+        display: none;
+      }
+
+      #map #infowindow-content {
+        display: inline;
+      }
+
+      .pac-card {
+        margin: 10px 10px 0 0;
+        border-radius: 2px 0 0 2px;
+        box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        outline: none;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        background-color: #fff;
+        font-family: Roboto;
+      }
+
+      #pac-container {
+        padding-bottom: 12px;
+        margin-right: 12px;
+      }
+
+      .pac-controls {
+        display: inline-block;
+        padding: 5px 11px;
+      }
+
+      .pac-controls label {
+        font-family: Roboto;
+        font-size: 13px;
+        font-weight: 300;
+      }
+
+      #pac-input {
+        background-color: #fff;
+        font-family: Roboto;
+        font-size: 15px;
+        font-weight: 300;
+        margin-left: 12px;
+        padding: 0 11px 0 13px;
+        text-overflow: ellipsis;
+        width: 400px;
+      }
+
+      #pac-input:focus {
+        border-color: #4d90fe;
+      }
+
+      #title {
+        color: #fff;
+        background-color: #4d90fe;
+        font-size: 25px;
+        font-weight: 500;
+        padding: 6px 12px;
+      }
+      #target {
+        width: 345px;
+      }
+    </style>
+  		
+		<script>
+		function initAutocomplete() {
+	        var map = new google.maps.Map(document.getElementById('map-canvas'), {
+	          center: {lat: -33.8688, lng: 151.2195},
+	          zoom: 13,
+	          mapTypeId: 'roadmap'
+	        });
+
+	        // Create the search box and link it to the UI element.
+	        var input = document.getElementById('pac-input');
+	        var searchBox = new google.maps.places.SearchBox(input);
+	        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+	        // Bias the SearchBox results towards current map's viewport.
+	        map.addListener('bounds_changed', function() {
+	          searchBox.setBounds(map.getBounds());
+	        });
+
+	        var markers = [];
+	        // Listen for the event fired when the user selects a prediction and retrieve
+	        // more details for that place.
+	        searchBox.addListener('places_changed', function() {
+	          var places = searchBox.getPlaces();
+
+	          if (places.length == 0) {
+	            return;
+	          }
+
+	          // Clear out the old markers.
+	          markers.forEach(function(marker) {
+	            marker.setMap(null);
+	          });
+	          markers = [];
+
+	          // For each place, get the icon, name and location.
+	          var bounds = new google.maps.LatLngBounds();
+	          places.forEach(function(place) {
+	            if (!place.geometry) {
+	              console.log("Returned place contains no geometry");
+	              return;
+	            }
+	            var icon = {
+	              url: place.icon,
+	              size: new google.maps.Size(71, 71),
+	              origin: new google.maps.Point(0, 0),
+	              anchor: new google.maps.Point(17, 34),
+	              scaledSize: new google.maps.Size(25, 25)
+	            };
+
+	            // Create a marker for each place.
+	            markers.push(new google.maps.Marker({
+	              map: map,
+	              icon: icon,
+	              title: place.name,
+	              position: place.geometry.location
+	            }));
+
+	            if (place.geometry.viewport) {
+	              // Only geocodes have viewport.
+	              bounds.union(place.geometry.viewport);
+	            } else {
+	              bounds.extend(place.geometry.location);
+	            }
+	          });
+	          map.fitBounds(bounds);
+	        });
+	      }
+
+		$(document).ready(function () {
+
+		     // Attach Button click event listener 
+		    $("#testButton").clcik(function(){
+
+		         // show Modal
+		         $('#myModal').modal('show');
+		    });
+		});
+		</script>
+	</head>
+	<body class="page1" id="top">
+		<div class="main">
+<!--==============================header=================================-->
+			<nav class="navbar navbar-default">
+		  		<div class="container-fluid">
+		    		<div class="navbar-header">
+		      			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					        <span class="sr-only">Toggle navigation</span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+					        <span class="icon-bar"></span>
+		      			</button>
+		      			<a class="navbar-brand" href="#">Brand</a>
+		    		</div>
+		
+				    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				      	<ul class="nav navbar-nav">
+				        	<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+				        	<li><a href="#">Link</a></li>
+				        	<li class="dropdown">
+					          	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+				          		<ul class="dropdown-menu" role="menu">
+					            	<li><a href="#">Action</a></li>
+					            	<li><a href="#">Another action</a></li>
+					            	<li><a href="#">Something else here</a></li>
+					            	<li class="divider"></li>
+					            	<li><a href="#">Separated link</a></li>
+					            	<li class="divider"></li>
+					            	<li><a href="#">One more separated link</a></li>
+					          	</ul>
+				        	</li>
+			      		</ul>
+				      	<form class="navbar-form navbar-left" role="search">
+				        	<div class="form-group">
+				          		<input class="form-control" placeholder="Search" type="text">
+				        	</div>
+				        	<button type="submit" class="btn btn-default">Submit</button>
+				      	</form>
+				      	<ul class="nav navbar-nav navbar-right">
+					        <li><a href="#">Link</a></li>
+				      	</ul>
+				    </div>
+		  		</div>
+			</nav>	
+			
+<!--==============================content=================================-->
+			
+
+			<form class="form-horizontal">
+  				<fieldset>
+    				<legend>Find Routes</legend>
+    				<div class="form-group">
+      					<label for="From" class="col-lg-2 control-label">From</label>
+      					<div class="col-lg-10">
+        					<input class="form-control" id="From" placeholder="From" type="text" onfocus="showModal">
+      					</div>
+    				</div>
+    
+    				<div class="form-group">
+			      		<label for="To" class="col-lg-2 control-label">To</label>
+			      		<div class="col-lg-10">
+        					<input class="form-control" id="To" placeholder="To" type="text" id="to">
+      					</div>
+      					<button id="testButton" >Modal</button>
+    				</div>
+    
+    				<div class="form-group">
+      					<label class="col-lg-2 control-label">Transport Type:</label>
+      					<div class="col-lg-10">
+        					<div class="radio">
+          						<label>
+            						<input name="Bus" id="Bus" value="Bus" checked type="radio">
+            						Bus
+						        </label>
+        					</div>
+        					<div class="radio">
+          						<label>
+            						<input name="Metro" id="Metro" value="Metro" type="radio">
+									Metro
+          						</label>
+        					</div>
+        					<div class="radio">
+          						<label>
+            						<input name="Mixed" id="Mixed" value="Mixed" type="radio">
+									Mixed
+          						</label>
+        					</div>
+      					</div>
+    				</div>
+    
+   					<div class="form-group">
+      					<div class="col-lg-10 col-lg-offset-2">
+        					<button type="reset" class="btn btn-default">Cancel</button>
+        					<button type="submit" class="btn btn-primary">Submit</button>
+      					</div>
+    				</div>
+  				</fieldset>
+			</form>
+			
+		
+		<!-- Modal -->
+  			<div class="modal fade" id="myModal" role="dialog">
+    			<div class="modal-dialog">
+    
+      <!-- Modal content-->
+      				<div class="modal-content">
+        				<div class="modal-header">
+          					<button type="button" class="close" data-dismiss="modal">&times;</button>
+          					<h4 class="modal-title">Modal Header</h4>
+        				</div>
+        				<div class="modal-body">
+          					<input id="pac-input" class="controls" type="text" placeholder="Search Box">
+    						<div class="container">
+			                    <div class="row">
+			                        <div id="map-canvas" class=""></div>
+			                    </div>
+			                </div>
+        
+    
+        				</div>
+        				<div class="modal-footer">
+          					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        				</div>
+      				</div>
+      
+    			</div>
+  			</div>
+		</div>	
+	</body>
+</html>
